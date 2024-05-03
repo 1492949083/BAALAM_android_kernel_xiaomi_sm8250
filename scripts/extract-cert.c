@@ -71,9 +71,12 @@ static void drain_openssl_errors(void)
 		bool __cond = (cond);			\
 		display_openssl_errors(__LINE__);	\
 		if (__cond) {				\
-			err(1, fmt, ## __VA_ARGS__);	\
+			char err_msg[256];		\
+			sprintf(err_msg, fmt, ## __VA_ARGS__);\
+			perror(err_msg); exit(1);	\
 		}					\
 	} while(0)
+
 
 static const char *key_pass;
 static BIO *wb;
